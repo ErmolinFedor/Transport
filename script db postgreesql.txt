@@ -1,0 +1,231 @@
+CREATE DATABASE URBANTRANSPORT;
+
+CREATE TABLE busModels (
+	id 	     SERIAL PRIMARY KEY,
+	model        varchar(40) NOT NULL,
+	capacity     integer NOT NULL,
+	tank         integer NOT NULL
+);
+
+CREATE TABLE buses (
+    licensePlate varchar(12) NOT NULL PRIMARY KEY,
+    number integer,
+    idModel      integer NOT NULL,
+    mileage      integer NOT NULL,
+    available    boolean,
+    FOREIGN KEY (idModel) REFERENCES busModels (id) ON DELETE CASCADE
+);
+
+CREATE TABLE trolleybusModels (
+	id 	     SERIAL PRIMARY KEY,
+	model        varchar(40) NOT NULL,
+	capacity     integer NOT NULL,
+);
+
+CREATE TABLE trolleybuses (
+    licensePlate varchar(12) NOT NULL PRIMARY KEY,
+    number integer,
+    idModel      integer NOT NULL,
+    mileage      integer NOT NULL,
+    available    boolean,
+    FOREIGN KEY (idModel) REFERENCES trolleybusModels (id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE tramModels (
+	id 	     SERIAL PRIMARY KEY,
+	model        varchar(40) NOT NULL,
+	capacity     integer NOT NULL
+);
+CREATE TABLE trams (
+    licensePlate varchar(12) NOT NULL PRIMARY KEY,
+    number integer,
+    idModel      integer NOT NULL,
+    mileage      integer NOT NULL,
+    available     boolean,
+    FOREIGN KEY (idModel) REFERENCES tramModels (id) ON DELETE CASCADE
+);
+
+CREATE TYPE way AS ENUM (
+	'direct', 
+	'back', 
+	'ring'
+);
+
+CREATE TYPE weekday AS ENUM (
+	'weekends',
+	'workings'
+);
+
+CREATE TABLE scheduleTram(
+	id SERIAL PRIMARY KEY,
+	number int,
+	direct way,
+	dayOfWeek weekday,
+	departure time,
+	arriving time
+);
+
+CREATE TABLE scheduleTramOrder(
+	id SERIAL PRIMARY KEY,
+	number int,
+	day date,
+	idScheduleTransport integer NOT NULL,
+	licensePlate varchar(12) NOT NULL,
+	FOREIGN KEY (idScheduleTransport) REFERENCES scheduleTram (id) ON DELETE CASCADE,
+	FOREIGN KEY (licensePlate) REFERENCES trams (licensePlate) ON DELETE CASCADE
+);
+
+CREATE TABLE scheduleBus(
+	id SERIAL PRIMARY KEY,
+	number int,
+	direct way,
+	dayOfWeek weekday,
+	departure time,
+	arriving time
+);
+
+CREATE TABLE scheduleBusOrder(
+	id SERIAL PRIMARY KEY,
+	number int,
+	day date,
+	idScheduleTransport integer NOT NULL,
+	licensePlate varchar(12) NOT NULL,
+	FOREIGN KEY (idScheduleTransport) REFERENCES scheduleBus (id) ON DELETE CASCADE,
+	FOREIGN KEY (licensePlate) REFERENCES buses (licensePlate) ON DELETE CASCADE
+);
+
+CREATE TABLE scheduleTrolleybus(
+	id SERIAL PRIMARY KEY,
+	number int,
+	direct way,
+	dayOfWeek weekday,
+	departure time,
+	arriving time
+);
+
+CREATE TABLE scheduleTrolleybusOrder(
+	id SERIAL PRIMARY KEY,
+	number int,
+	day date,
+	idScheduleTransport integer NOT NULL,
+	licensePlate varchar(12) NOT NULL,
+	FOREIGN KEY (idScheduleTransport) REFERENCES scheduleTrolleybus (id) ON DELETE CASCADE,
+	FOREIGN KEY (licensePlate) REFERENCES trolleybuses (licensePlate) ON DELETE CASCADE
+);
+
+
+
+--insert into bus
+
+insert into busModels(model, capacity, tank ) values(
+'KAVZ-4270', 84 , 665);
+insert into busModels(model, capacity, tank ) values(
+'LiAZ-5293', 104 , 440);
+insert into busModels(model, capacity, tank ) values(
+'LiAZ-6213', 153 , 440);
+
+insert into buses values(
+'A001AA178RUS' ,40 ,1 , 102000 , true);
+insert into buses values(
+'A002AA178RUS' ,40 ,1 , 122000 , true);
+insert into buses values(
+'A003AA178RUS' ,40 ,2 , 132000 , true);
+insert into buses values(
+'A004AA178RUS' ,40 ,2 , 142000 , true);
+insert into buses values(
+'A005AA178RUS' ,40 ,2 , 152000 , true);
+insert into buses values(
+'A006AA178RUS' ,40 ,3 , 162000 , true);
+insert into buses values(
+'A007AA178RUS' ,40 ,3 , 172000 , true);
+insert into buses values(
+'A008AA178RUS' ,40 ,3 , 182000 , true);
+
+-- insert into regular schedule bus
+
+insert into scheduleBus(number, direct, dayOfWeek, departure, arriving)
+ values(40, 'ring' , 'workings', '08:00:00', '08:35:00');
+
+insert into scheduleBus(number, direct, dayOfWeek, departure, arriving)
+ values(40, 'ring' , 'workings', '08:15:00', '08:50:00');
+
+insert into scheduleBus(number, direct, dayOfWeek, departure, arriving)
+ values(40, 'ring' , 'workings', '08:30:00', '09:05:00');
+
+insert into scheduleBus(number, direct, dayOfWeek, departure, arriving)
+ values(40, 'ring' , 'workings', '08:45:00', '09:20:00');
+
+insert into scheduleBus(number, direct, dayOfWeek, departure, arriving)
+ values(40, 'ring' , 'workings', '09:00:00', '09:35:00');
+
+insert into scheduleBus(number, direct, dayOfWeek, departure, arriving)
+ values(40, 'ring' , 'workings', '09:15:00', '09:50:00');
+
+select * from scheduleBusOrder join scheduleBus on scheduleBus.id = scheduleBusOrder.idScheduleTransport 
+ join buses on buses.licensePlate = scheduleBusOrder.licensePlate order by day , departure;
+
+-- insert into tram
+
+insert into tramModels(model , capacity) values(
+'LM-68M' , 115);
+
+insert into trams values(
+1123, 9, 1, 105400 , true);
+
+insert into trams values(
+1124, 9, 1, 102000 , true);
+
+insert into trams values(
+1228, 9, 1, 2345998, false);
+
+insert into tramModels(model , capacity) values(
+'LM-2008' , 110);
+
+insert into trams values(
+1224, 9, 2, 1098, true);
+
+insert into trams values(
+1225, 9, 2, 1056, true);
+
+insert into trams values(
+1226, 9, 2, 824, true);
+
+insert into trams values(
+1227, 9, 9, 2, 998, true);
+
+insert into tramModels(model , capacity) values(
+'LVS-97K' , 195);
+
+insert into trams values(
+1321, 9, 3, 450, true);
+
+insert into trams values(
+1322, 9, 3, 1425, true);
+--
+insert into trams values(
+1323, 9, 3, 1625, true);
+
+insert into trams values(
+1324, 9, 3, 1825, true);
+
+insert into trams values(
+1325, 3, 1425, true);
+insert into trams values(
+1326, 9, 3, 1425, true);
+--Select tram
+
+select * from trams join tramModels on id = idModel;
+
+--select avalible tram берем первый рандомный трамвай first start отправляем n автобусов
+select * from trams join tramModels on id = idModel 
+where number = 9 and avalible = true order by random();
+-- берем трамвая доступные и не в рейсе на время маршрута, отправление в течении дня
+select * from trams join tramModels on id = idModel 
+join sheduleTramOrder sheduleTramOrder.licensePlate = trams.licensePlate 
+where avalible = true and 
+( day = '2020-04-04' and arriving < 22:00);-- 22:00 старт данного маршрута
+
+--select avalible tram in prime time
+select * from trams join tramModels on id = idModel 
+where avalible = true and capacity >= 120;
