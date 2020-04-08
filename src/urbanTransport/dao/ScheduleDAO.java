@@ -16,8 +16,26 @@ import java.sql.Date;
 public class ScheduleDAO implements  DAO<Schedule>{
 
     @Override
-    public void insert(Schedule obj) {
+    public void insert(Schedule schedule) {
+        Connection connection = JDBCPostgree.getConnection();
+        TransportType t = schedule.getRouteQueue().getFirst().getTransport().getType();
+        String sql = "insert into " +
+                schedule.getRouteQueue().getFirst().getTransport().getType().sqlScheduleOrder
+                + " (number, day, idScheduleTransport, licensePlate)\n" +
+                "\tvalues(?, ?, ?, ?)"; // int date int int
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            for (Route route: schedule.getRouteQueue()) {
+                preparedStatement.setInt(1, route.getNumber());
+                preparedStatement.setDate(2 , new Date(route.getDate().getTime()));
+                preparedStatement.setInt(3, route.getId());
+                preparedStatement.setString(4 , route.getTransport().getLicensePlate());
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
 
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
@@ -47,13 +65,10 @@ public class ScheduleDAO implements  DAO<Schedule>{
     public Schedule getScheduleRegular(int number, Weekday weekday, TransportType type){
         Schedule schedule = new Schedule();
         Connection connection = JDBCPostgree.getConnection();
-        //PreparedStatement preparedStatement = null;
-        //ResultSet resultSet = null;
         String sql = "select * from " + type.sqlSchedule
                 + " where number = ? and dayOfWeek = ?::weekday order by departure";
         try(PreparedStatement preparedStatement =connection.prepareStatement(sql)) {
 
-            //preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, number);
             preparedStatement.setString(2, weekday.name());
 
@@ -70,8 +85,6 @@ public class ScheduleDAO implements  DAO<Schedule>{
                 setWay(route, way);
                 schedule.add(route);
             }
-           // resultSet.close();
-           // preparedStatement.close();
         }}catch (SQLException e){
             e.printStackTrace();
         }
@@ -79,23 +92,4 @@ public class ScheduleDAO implements  DAO<Schedule>{
         return schedule;
     }
 
-    public void insetScheduleOrder(Schedule schedule, TransportType type){
-        Connection connection = JDBCPostgree.getConnection();
-        String sql = "insert into " + type.sqlScheduleOrder + " (number, day, idScheduleTransport, licensePlate)\n" +
-                "\tvalues(?, ?, ?, ?)"; // int date int int
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            for (Route route: schedule.getRouteQueue()) {
-                preparedStatement.setInt(1, route.getNumber());
-                preparedStatement.setDate(2 , new Date(route.getDate().getTime()));
-                preparedStatement.setInt(3, route.getId());
-                preparedStatement.setString(4 , route.getTransport().getLicensePlate());
-                preparedStatement.addBatch();
-            }
-           preparedStatement.executeBatch();
-
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-
-    }
 }

@@ -14,16 +14,16 @@ import java.util.LinkedList;
 
 public class TransportDAO implements DAO<Transport> {
 
-    private int findIdModelByString(String model , TransportType transportType){
+    private int findIdModelByString(String model, TransportType transportType) {
         int res = 0;
         Connection connection = JDBCPostgree.getConnection();
         String sql = "select id from " + transportType.sqlModel + " where model = ?";
-        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            preparedStatement.setString(1 , model);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, model);
             ResultSet resultSet = preparedStatement.executeQuery();
             res = resultSet.getInt("model");
             resultSet.close();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return res;
@@ -61,7 +61,7 @@ public class TransportDAO implements DAO<Transport> {
 
     private Transport createTransport(ResultSet resultSet, TransportType type) throws SQLException {
         Transport transport = null;
-        switch (type){
+        switch (type) {
             case Bus:
                 transport = new Bus(resultSet.getString("licensePlate"),
                         resultSet.getInt("number"),
@@ -94,21 +94,22 @@ public class TransportDAO implements DAO<Transport> {
         return transport;
     }
 
-    public LinkedList<Transport> getFreeAvailableTransport(int number, TransportType type){
+    public LinkedList<Transport> getFreeAvailableTransport(int number, TransportType type) {
         LinkedList<Transport> transports = new LinkedList<>();
         Connection connection = JDBCPostgree.getConnection();
-        String sql = "select * from " + type.sqlMain + " join " + type.sqlModel +  " on id = idModel \n" +
+        String sql = "select * from " + type.sqlMain + " join " + type.sqlModel + " on id = idModel \n" +
                 "where number = ? and available = true order by random()";
 
-        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, number);
 
-            try(ResultSet resultSet = preparedStatement.executeQuery()) {
-            while ( resultSet.next()) {
-                transports.add(createTransport(resultSet , type));
-            }
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    transports.add(createTransport(resultSet, type));
+                }
 
-        }} catch (SQLException e) {
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return transports;

@@ -26,8 +26,8 @@ public class RouteService {
 
         if (transportsAtDepot.isEmpty())return;
 
-
-        Schedule schedule = new ScheduleDAO().getScheduleRegular(number, getWeekday(day) , type);
+        ScheduleDAO scheduleDAO = new ScheduleDAO();
+        Schedule schedule = scheduleDAO.getScheduleRegular(number, getWeekday(day) , type);
 
         while (schedule.getRouteQueue().size() > 0){
             Route route = schedule.getRouteQueue().pollFirst();
@@ -46,7 +46,9 @@ public class RouteService {
 
         }
 
-        for (Route route: directQ) { //return all not ended route to the schedule
+        res.addAll(directQ);
+        res.addAll(backQ);
+        /*for (Route route: directQ) { //return all not ended route to the schedule
             transportsAtDepot.addFirst(route.getTransport());
             res.add(route);
         }
@@ -54,16 +56,16 @@ public class RouteService {
         for (Route route: backQ) {  //return all not ended route to the schedule
             transportsAtDE.addFirst(route.getTransport());
             res.add(route);
-        }
+        }*/
 
-        System.out.println("Final schedule: ");
+        /*System.out.println("Final schedule: ");
         for (Route route: res
              ) {
             System.out.println(route);
-        }
+        }*/
 
         schedule.setRouteQueue(res);//schedule with transports
-        new ScheduleDAO().insetScheduleOrder(schedule , type); //write to DB real schedule
+        scheduleDAO.insert(schedule);//write to DB real schedule
 
     }
 

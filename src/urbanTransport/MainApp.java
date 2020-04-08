@@ -8,12 +8,12 @@ import java.util.GregorianCalendar;
 public class MainApp {
     public static void main(String[] args){
         RouteService routeService = new RouteService();
-        routeService.generateScheduleTransportOrderByRegular(40 ,
-                new GregorianCalendar(2020, 03 ,8), TransportType.Bus);
-        //routeService.generateScheduleTramOrderByRegularForTomorrow(9);
 
-        //routeService.generateScheduleTramOrderByRegular(
-        //        10 , new GregorianCalendar(2020, 03 ,10));
+        routeService.generateScheduleTransportOrderByRegular(40 ,
+                new GregorianCalendar(2020, 03 ,14), TransportType.Bus);
+
+        routeService.generateScheduleTransportOrderByRegularForTomorrow(40 , TransportType.Bus);
+
         routeService.exit();
     }
 }
