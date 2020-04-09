@@ -51,7 +51,21 @@ public class TransportDAO implements DAO<Transport> {
 
     @Override
     public void update(Transport transport) {
+        Connection connection = JDBCPostgree.getConnection();
+        String sql = "update " + transport.getType().sqlMain + " set\n" +
+                "number = ?, idModel = ?, mileage = ?, available = ?\n" +
+                "where licensePlate = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, transport.getNumber());
+            preparedStatement.setInt(2, findIdModelByString(transport.getModel(), transport.getType()));
+            preparedStatement.setInt(3, transport.getMileage());
+            preparedStatement.setBoolean(4, transport.isAvailable());
+            preparedStatement.setString(5, transport.getLicensePlate());
 
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

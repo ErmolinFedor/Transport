@@ -63,9 +63,8 @@ public class RouteService {
         }*/
 
         System.out.println("Final schedule: ");
-        res.stream().sorted((o1 , o2) -> {
-            return  (int)(o1.getDeparture().getTime() - o2.getDeparture().getTime());
-        }).collect(Collectors.toList()).forEach(System.out::println);
+        res.stream().sorted((o1 , o2) -> (int)(o1.getDeparture().getTime() - o2.getDeparture().getTime())
+        ).collect(Collectors.toList()).forEach(System.out::println);
        // for (Route route: res
        //      ) {
        //     System.out.println(route);
