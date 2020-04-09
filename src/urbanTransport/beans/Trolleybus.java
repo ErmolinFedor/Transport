@@ -7,7 +7,7 @@ public class Trolleybus extends Transport {
 
     @Override
     public String toString() {
-        return "Trolleybus{"
+        return "TROLLEYBUS{"
                 + super.toString();
     }
 }

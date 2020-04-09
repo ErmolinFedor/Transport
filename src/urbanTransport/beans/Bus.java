@@ -10,6 +10,6 @@ public class Bus extends Transport {
 
     @Override
     public String toString() {
-        return "Bus{" + super.toString();
+        return "BUS{" + super.toString();
     }
 }

@@ -62,7 +62,7 @@ public class TransportDAO implements DAO<Transport> {
     private Transport createTransport(ResultSet resultSet, TransportType type) throws SQLException {
         Transport transport = null;
         switch (type) {
-            case Bus:
+            case BUS:
                 transport = new Bus(resultSet.getString("licensePlate"),
                         resultSet.getInt("number"),
                         resultSet.getInt("idModel"),
@@ -72,7 +72,7 @@ public class TransportDAO implements DAO<Transport> {
                         resultSet.getInt("tank"),
                         resultSet.getBoolean("available"));
                 break;
-            case Tram:
+            case TRAM:
                 transport = new Tram(resultSet.getString("licensePlate"),
                         resultSet.getInt("number"),
                         resultSet.getInt("idModel"),
@@ -81,7 +81,7 @@ public class TransportDAO implements DAO<Transport> {
                         resultSet.getInt("capacity"),
                         resultSet.getBoolean("available"));
                 break;
-            case Trolleybus:
+            case TROLLEYBUS:
                 transport = new Trolleybus(resultSet.getString("licensePlate"),
                         resultSet.getInt("number"),
                         resultSet.getInt("idModel"),

@@ -1,9 +1,9 @@
 package urbanTransport.beans;
 
 public enum TransportType {
-    Tram("trams" , "tramModels" , "scheduleTram" , "scheduleTramOrder" , "idScheduleTram"),
-    Bus("buses" , "busModels", "scheduleBus", "scheduleBusOrder" , "idScheduleBus"),
-    Trolleybus("trolleybuses" , "trolleybusModels", "scheduleTrolleybus" , "scheduleTrolleybusOrder" , "idScheduleBus");
+    TRAM("trams" , "tramModels" , "scheduleTram" , "scheduleTramOrder" , "idScheduleTram"),
+    BUS("buses" , "busModels", "scheduleBus", "scheduleBusOrder" , "idScheduleBus"),
+    TROLLEYBUS("trolleybuses" , "trolleybusModels", "scheduleTrolleybus" , "scheduleTrolleybusOrder" , "idScheduleBus");
     
     public String sqlMain;
     public String sqlModel;

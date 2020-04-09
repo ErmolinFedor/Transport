@@ -82,9 +82,9 @@ public class Transport {
     }
 
     public TransportType getType() {
-        if (this instanceof Tram) type = TransportType.Tram;
-        if (this instanceof Trolleybus) type = TransportType.Trolleybus;
-        if (this instanceof Bus) type = TransportType.Bus;
+        if (this instanceof Tram) type = TransportType.TRAM;
+        if (this instanceof Trolleybus) type = TransportType.TROLLEYBUS;
+        if (this instanceof Bus) type = TransportType.BUS;
         return type;
     }
 

@@ -9,7 +9,7 @@ public class Tram extends Transport {
 
     @Override
     public String toString() {
-        return "Tram{" +
+        return "TRAM{" +
                 super.toString();
 
     }
