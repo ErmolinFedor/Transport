@@ -10,8 +10,12 @@ import urbanTransport.dao.ScheduleDAO;
 import urbanTransport.dao.TransportDAO;
 
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RouteService {
 
@@ -58,11 +62,14 @@ public class RouteService {
             res.add(route);
         }*/
 
-        /*System.out.println("Final schedule: ");
-        for (Route route: res
-             ) {
-            System.out.println(route);
-        }*/
+        System.out.println("Final schedule: ");
+        res.stream().sorted((o1 , o2) -> {
+            return  (int)(o1.getDeparture().getTime() - o2.getDeparture().getTime());
+        }).collect(Collectors.toList()).forEach(System.out::println);
+       // for (Route route: res
+       //      ) {
+       //     System.out.println(route);
+       // }
 
         schedule.setRouteQueue(res);//schedule with transports
         scheduleDAO.insert(schedule);//write to DB real schedule

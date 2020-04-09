@@ -12,7 +12,7 @@ public class MainApp {
         routeService.generateScheduleTransportOrderByRegular(40 ,
                 new GregorianCalendar(2020, 03 ,14), TransportType.BUS);
 
-        routeService.generateScheduleTransportOrderByRegularForTomorrow(40 , TransportType.BUS);
+        //routeService.generateScheduleTransportOrderByRegularForTomorrow(40 , TransportType.BUS);
 
         routeService.exit();
     }
