@@ -39,12 +39,38 @@ public class ScheduleDAO implements  DAO<Schedule>{
     }
 
     @Override
-    public void update(Schedule obj) {
-
+    public void update(Schedule schedule) {
+        Connection connection = JDBCPostgree.getConnection();
+        String sql = "update " + schedule.getRouteQueue().getFirst().getTransport().getType().sqlScheduleOrder+
+                " set number = ?, licensePlate = ?"
+                + " where idScheduleTransport = ? and day = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            for (Route route: schedule.getRouteQueue()) {
+                preparedStatement.setInt(1, route.getNumber());
+                preparedStatement.setString(2, route.getTransport().getLicensePlate());
+                preparedStatement.setInt(3, route.getId());
+                preparedStatement.setDate(4 , new Date(route.getDate().getTime()));
+            }
+            preparedStatement.executeBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void delete(Schedule obj) {
+    public void delete(Schedule schedule) {
+        Connection connection = JDBCPostgree.getConnection();
+        String sql = "delete from " + schedule.getRouteQueue().getFirst().getTransport().getType().sqlScheduleOrder
+                + " where idScheduleTransport = ? and day = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            for (Route route: schedule.getRouteQueue()) {
+                preparedStatement.setInt(1, route.getId());
+                preparedStatement.setDate(2 , new Date(route.getDate().getTime()));
+            }
+            preparedStatement.executeBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 

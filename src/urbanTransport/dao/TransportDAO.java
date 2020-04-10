@@ -70,7 +70,15 @@ public class TransportDAO implements DAO<Transport> {
 
     @Override
     public void delete(Transport transport) {
+        Connection connection = JDBCPostgree.getConnection();
+        String sql = "delete from " + transport.getType().sqlMain + " where licensePlate = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, transport.getLicensePlate());
 
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private Transport createTransport(ResultSet resultSet, TransportType type) throws SQLException {
