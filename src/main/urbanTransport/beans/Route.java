@@ -1,6 +1,7 @@
-package urbanTransport.beans;
+package main.urbanTransport.beans;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Route {
     int id;
@@ -10,7 +11,7 @@ public class Route {
     Way direct;
     Weekday dayOfWeek;
     Date departure ;
-    Date arriving;
+    public Date arriving;
     //int licensePlate;
     Transport transport;
 
@@ -97,6 +98,32 @@ public class Route {
         this.date = date;
     }
 
+    private String transportLicensePlate(){
+
+        return transport!=null ? transport.getLicensePlate() : "";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Route route = (Route) o;
+        return id == route.id &&
+                idOrder == route.idOrder &&
+                number == route.number &&
+                Objects.equals(date, route.date) &&
+                direct == route.direct &&
+                dayOfWeek == route.dayOfWeek &&
+                Objects.equals(departure, route.departure) &&
+                Objects.equals(arriving, route.arriving) &&
+                Objects.equals(transport, route.transport);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, idOrder, number, date, direct, dayOfWeek, departure, arriving, transport);
+    }
+
     @Override
     public String toString() {
         return "Route{" +
@@ -108,7 +135,8 @@ public class Route {
                 ", dayOfWeek=" + dayOfWeek +
                 ", departure=" + departure +
                 ", arriving=" + arriving +
-                ", licensePlate=" + transport.getLicensePlate() +
+                " "+
+                transportLicensePlate()+
                 '}';
     }
 }

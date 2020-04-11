@@ -1,11 +1,11 @@
-package urbanTransport.dao;
+package main.urbanTransport.dao;
 
 
-import urbanTransport.beans.Route;
-import urbanTransport.beans.Schedule;
-import urbanTransport.beans.TransportType;
-import urbanTransport.beans.Way;
-import urbanTransport.beans.Weekday;
+import main.urbanTransport.beans.Route;
+import main.urbanTransport.beans.Schedule;
+import main.urbanTransport.beans.TransportType;
+import main.urbanTransport.beans.Way;
+import main.urbanTransport.beans.Weekday;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

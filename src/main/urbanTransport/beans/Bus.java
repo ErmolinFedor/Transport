@@ -1,4 +1,4 @@
-package urbanTransport.beans;
+package main.urbanTransport.beans;
 
 public class Bus extends Transport {
     private int tank;

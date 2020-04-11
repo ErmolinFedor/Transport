@@ -1,6 +1,4 @@
-package urbanTransport.beans;
-
-import java.util.Objects;
+package main.urbanTransport.beans;
 
 public class Tram extends Transport {
     public Tram(String licensePlate, int number, int idModel, String model, int mileage, int capacity, boolean available) {

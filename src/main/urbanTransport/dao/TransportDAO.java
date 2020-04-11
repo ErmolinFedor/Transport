@@ -1,10 +1,10 @@
-package urbanTransport.dao;
+package main.urbanTransport.dao;
 
-import urbanTransport.beans.Bus;
-import urbanTransport.beans.Tram;
-import urbanTransport.beans.Transport;
-import urbanTransport.beans.TransportType;
-import urbanTransport.beans.Trolleybus;
+import main.urbanTransport.beans.Bus;
+import main.urbanTransport.beans.Tram;
+import main.urbanTransport.beans.Transport;
+import main.urbanTransport.beans.TransportType;
+import main.urbanTransport.beans.Trolleybus;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,7 +35,6 @@ public class TransportDAO implements DAO<Transport> {
         String sql = "insert into " + transport.getType().sqlMain + " values(\n" +
                 "?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            //preparedStatement.setString(1 , transport.getType().sqlMain);
             preparedStatement.setString(1, transport.getLicensePlate());
             preparedStatement.setInt(2, transport.getNumber());
             preparedStatement.setInt(3, findIdModelByString(transport.getModel(), transport.getType()));

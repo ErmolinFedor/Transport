@@ -1,4 +1,4 @@
-package urbanTransport.beans;
+package main.urbanTransport.beans;
 
 public enum Way {
     direct,

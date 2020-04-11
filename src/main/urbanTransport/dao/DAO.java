@@ -1,6 +1,4 @@
-package urbanTransport.dao;
-
-import java.util.ArrayList;
+package main.urbanTransport.dao;
 
 public interface DAO<T> {
     void insert(T obj);
