@@ -18,18 +18,31 @@ public class RouteService {
 
     public void getScheduleByRegularSchedule(int number, Calendar calendar, TransportType type) {
         LinkedList<Transport> transportsAtDepot = getFreeTransport(number, type);
-        if (transportsAtDepot.isEmpty()) return;
+        if (transportsAtDepot.isEmpty()){
+            printError("no corresponding transport");
+            return;
+        }
 
         ScheduleDAO scheduleDAO = new ScheduleDAO();
         Schedule schedule = scheduleDAO.getScheduleRegular(number, getWeekday(calendar), type);
         LinkedList<Route> regularQueue = schedule.getRouteQueue();
-        if (regularQueue.isEmpty()) return;
+        if (regularQueue.isEmpty()){
+            printError("no corresponding schedule");
+            return;
+        }
         LinkedList<Route> resultRoutes = generateQueueRoute(transportsAtDepot, regularQueue, calendar);
 
         printQueue(resultRoutes);
         schedule.setRouteQueue(resultRoutes);
         //if (schedule.getRouteQueue().size() > 0) scheduleDAO.insert(schedule);
 
+    }
+
+    public void getScheduleByRegularScheduleForTomorrow(int number, TransportType type){
+        Calendar calendar = new GregorianCalendar();
+        calendar.roll(Calendar.DAY_OF_MONTH, true);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        getScheduleByRegularSchedule(number, calendar, type);
     }
 
     private LinkedList<Transport> getFreeTransport(int number, TransportType type) {
@@ -44,6 +57,9 @@ public class RouteService {
         LinkedList<Transport> transportsAtDE = new LinkedList<>();// transport are ready to start at the ded end
         LinkedList<Route> directQ = new LinkedList<>();
         LinkedList<Route> backQ = new LinkedList<>();
+
+
+        regularQueue.sort((o1, o2) -> (int) (o1.getDeparture().getTime() - o2.getDeparture().getTime()));
 
         while (regularQueue.size() > 0) {
             Route route = regularQueue.pollFirst();
@@ -61,16 +77,25 @@ public class RouteService {
                     break;
             }
         }
-        result.addAll(directQ);
-        result.addAll(backQ);
+
+        for (Route route: directQ) { //return all not ended route to the schedule
+            transportsAtDepot.addFirst(route.getTransport());
+            result.add(route);
+        }
+
+        for (Route route: backQ) {  //return all not ended route to the schedule
+            transportsAtDepot.addFirst(route.getTransport());
+            result.add(route);
+        }
+
+
+        /*result.addAll(directQ);
+        result.addAll(backQ);*/
         result.sort((o1, o2) -> (int) (o1.getDeparture().getTime() - o2.getDeparture().getTime()));
         return result;
     }
 
-    public void printQueue(LinkedList<Route> routes) {
-        System.out.println("Final schedule: ");
-        routes.stream().forEach(System.out::println);
-    }
+
 
     public Weekday getWeekday(Calendar calendar) {
         return calendar.get(Calendar.DAY_OF_WEEK) > 1 &&
@@ -123,86 +148,16 @@ public class RouteService {
         directQ.addFirst(route);
     }
 
+    private void printQueue(LinkedList<Route> routes) {
+        System.out.println("Final schedule: ");
+        routes.stream().forEach(System.out::println);
+    }
+
+    private void printError(String msg){
+        System.err.println("The operation cannot be performed for the following reason: " + msg);
+    }
+
     public void exit() {
         JDBCPostgree.closeConnection();
-    }
-
-    // old code method
-
-    public void generateScheduleTransportOrderByRegular(int number, Calendar day, TransportType type) {
-        LinkedList<Transport>
-                transportsAtDepot = new TransportDAO().getFreeAvailableTransport(number, type);// transport are ready to start at the depot
-        LinkedList<Transport>
-                transportsAtDE = new LinkedList<>();// transport are ready to start at the ded end
-
-        LinkedList<Route> directQ = new LinkedList<>();
-        LinkedList<Route> backQ = new LinkedList<>();
-
-        LinkedList<Route> res = new LinkedList<>();
-
-        if (transportsAtDepot.isEmpty()) return;
-
-        ScheduleDAO scheduleDAO = new ScheduleDAO();
-        Schedule schedule = scheduleDAO.getScheduleRegular(number, getWeekday(day), type);
-
-        while (schedule.getRouteQueue().size() > 0) {
-            Route route = schedule.getRouteQueue().pollFirst();
-            route.setDate(day.getTime());
-            switch (route.getDirect()) {
-                case direct:
-                    directRoute(backQ, transportsAtDepot, route, directQ, res);
-                    break;
-                case back:
-                    backRoute(backQ, transportsAtDE, route, directQ, res);
-                    break;
-                case ring:
-                    ringRoute(directQ, transportsAtDepot, route, res);
-                    break;
-            }//switch
-
-        }
-
-        res.addAll(directQ);
-        res.addAll(backQ);
-        /*for (Route route: directQ) { //return all not ended route to the schedule
-            transportsAtDepot.addFirst(route.getTransport());
-            res.add(route);
-        }
-
-        for (Route route: backQ) {  //return all not ended route to the schedule
-            transportsAtDE.addFirst(route.getTransport());
-            res.add(route);
-        }*/
-
-        System.out.println("Final schedule: ");
-        res.stream().sorted((o1, o2) -> (int) (o1.getDeparture().getTime() - o2.getDeparture().getTime())
-        ).collect(Collectors.toList()).forEach(System.out::println);
-        // for (Route route: res
-        //      ) {
-        //     System.out.println(route);
-        // }
-
-        schedule.setRouteQueue(res);//schedule with transports
-        //scheduleDAO.insert(schedule);//write to DB real schedule
-
-    }
-
-
-    public void generateScheduleTransportOrderByRegularForTomorrow(int number, TransportType type) {
-
-        Calendar calendar = new GregorianCalendar();
-        calendar.roll(Calendar.DATE, 1);//tomorrow
-
-        generateScheduleTransportOrderByRegular(number, calendar, type);
-
-    }
-
-
-    public LinkedList<Route> getNotNullList() {
-        LinkedList<Route> res = new LinkedList<>();
-        Route route = new Route();
-        route.setNumber(1);
-        res.add(route);
-        return res;
     }
 }
