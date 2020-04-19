@@ -1,6 +1,6 @@
-package test.urbanTransport.services;
+package test.java.com.ermolin.urbanTransport.services;
 
-import main.urbanTransport.beans.Weekday;
+import main.java.com.ermolin.urbanTransport.beans.Weekday;
 import org.testng.annotations.DataProvider;
 
 import java.util.GregorianCalendar;

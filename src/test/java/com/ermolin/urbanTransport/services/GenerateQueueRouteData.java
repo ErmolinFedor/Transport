@@ -1,12 +1,12 @@
-package test.urbanTransport.services;
+package test.java.com.ermolin.urbanTransport.services;
 
-import main.urbanTransport.beans.Bus;
-import main.urbanTransport.beans.Route;
-import main.urbanTransport.beans.Tram;
-import main.urbanTransport.beans.Transport;
-import main.urbanTransport.beans.Trolleybus;
-import main.urbanTransport.beans.Way;
-import main.urbanTransport.beans.Weekday;
+import main.java.com.ermolin.urbanTransport.beans.Bus;
+import main.java.com.ermolin.urbanTransport.beans.Route;
+import main.java.com.ermolin.urbanTransport.beans.Tram;
+import main.java.com.ermolin.urbanTransport.beans.Transport;
+import main.java.com.ermolin.urbanTransport.beans.Trolleybus;
+import main.java.com.ermolin.urbanTransport.beans.Way;
+import main.java.com.ermolin.urbanTransport.beans.Weekday;
 import org.testng.annotations.DataProvider;
 
 import java.util.Calendar;

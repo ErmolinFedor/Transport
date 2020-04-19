@@ -1,7 +1,7 @@
-package main.urbanTransport;
+package main.java.com.ermolin.urbanTransport;
 
-import main.urbanTransport.beans.TransportType;
-import main.urbanTransport.services.RouteService;
+import main.java.com.ermolin.urbanTransport.services.RouteService;
+import main.java.com.ermolin.urbanTransport.beans.TransportType;
 
 import java.util.GregorianCalendar;
 

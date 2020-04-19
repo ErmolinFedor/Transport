@@ -1,4 +1,4 @@
-package main.urbanTransport.beans;
+package main.java.com.ermolin.urbanTransport.beans;
 
 import java.util.Date;
 import java.util.Objects;

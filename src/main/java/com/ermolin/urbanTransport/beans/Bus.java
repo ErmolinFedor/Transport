@@ -1,4 +1,4 @@
-package main.urbanTransport.beans;
+package main.java.com.ermolin.urbanTransport.beans;
 
 public class Bus extends Transport {
     private int tank;

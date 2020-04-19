@@ -1,8 +1,8 @@
-package test.urbanTransport.services;
+package test.java.com.ermolin.urbanTransport.services;
 
-import main.urbanTransport.beans.Route;
-import main.urbanTransport.beans.Transport;
-import main.urbanTransport.services.RouteService;
+import main.java.com.ermolin.urbanTransport.beans.Route;
+import main.java.com.ermolin.urbanTransport.beans.Transport;
+import main.java.com.ermolin.urbanTransport.services.RouteService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

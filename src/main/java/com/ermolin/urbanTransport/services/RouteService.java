@@ -1,18 +1,17 @@
-package main.urbanTransport.services;
+package main.java.com.ermolin.urbanTransport.services;
 
-import main.urbanTransport.beans.Route;
-import main.urbanTransport.beans.Schedule;
-import main.urbanTransport.beans.Transport;
-import main.urbanTransport.beans.TransportType;
-import main.urbanTransport.beans.Weekday;
-import main.urbanTransport.dao.JDBCPostgree;
-import main.urbanTransport.dao.ScheduleDAO;
-import main.urbanTransport.dao.TransportDAO;
+import main.java.com.ermolin.urbanTransport.beans.Schedule;
+import main.java.com.ermolin.urbanTransport.dao.JDBCPostgree;
+import main.java.com.ermolin.urbanTransport.beans.Route;
+import main.java.com.ermolin.urbanTransport.beans.Transport;
+import main.java.com.ermolin.urbanTransport.beans.TransportType;
+import main.java.com.ermolin.urbanTransport.beans.Weekday;
+import main.java.com.ermolin.urbanTransport.dao.ScheduleDAO;
+import main.java.com.ermolin.urbanTransport.dao.TransportDAO;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
-import java.util.stream.Collectors;
 
 public class RouteService {
 

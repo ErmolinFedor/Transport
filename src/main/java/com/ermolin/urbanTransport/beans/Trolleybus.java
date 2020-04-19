@@ -1,4 +1,4 @@
-package main.urbanTransport.beans;
+package main.java.com.ermolin.urbanTransport.beans;
 
 public class Trolleybus extends Transport {
     public Trolleybus(String licensePlate, int number, int idModel, String model, int mileage, int capacity, boolean available) {

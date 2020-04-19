@@ -1,11 +1,11 @@
-package main.urbanTransport.dao;
+package main.java.com.ermolin.urbanTransport.dao;
 
 
-import main.urbanTransport.beans.Route;
-import main.urbanTransport.beans.Schedule;
-import main.urbanTransport.beans.TransportType;
-import main.urbanTransport.beans.Way;
-import main.urbanTransport.beans.Weekday;
+import main.java.com.ermolin.urbanTransport.beans.Route;
+import main.java.com.ermolin.urbanTransport.beans.Schedule;
+import main.java.com.ermolin.urbanTransport.beans.TransportType;
+import main.java.com.ermolin.urbanTransport.beans.Way;
+import main.java.com.ermolin.urbanTransport.beans.Weekday;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

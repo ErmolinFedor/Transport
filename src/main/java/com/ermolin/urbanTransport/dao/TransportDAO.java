@@ -1,10 +1,10 @@
-package main.urbanTransport.dao;
+package main.java.com.ermolin.urbanTransport.dao;
 
-import main.urbanTransport.beans.Bus;
-import main.urbanTransport.beans.Tram;
-import main.urbanTransport.beans.Transport;
-import main.urbanTransport.beans.TransportType;
-import main.urbanTransport.beans.Trolleybus;
+import main.java.com.ermolin.urbanTransport.beans.Transport;
+import main.java.com.ermolin.urbanTransport.beans.TransportType;
+import main.java.com.ermolin.urbanTransport.beans.Bus;
+import main.java.com.ermolin.urbanTransport.beans.Tram;
+import main.java.com.ermolin.urbanTransport.beans.Trolleybus;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
