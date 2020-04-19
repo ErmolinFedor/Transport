@@ -6,4 +6,7 @@
 На данный момент реализована база данных(PostreSQL) и доступ к ней(реализованы только оспользованные метода, остальные еще нет), 
 сервис формирования маршрута по расписанию с использованием соответсвуещего транспорта, вывод в консоль(на уровне отладки), для всех сервисов написаны тесты.
 
-https://app.codeship.com/projects/9fc5b750-6450-0138-6dfe-4608fa381da8/status?branch=master
+
+* Author name : Ermolin Fedor
+* Codeship : [ ![Codeship Status for ermolin/urbanTransport](https://app.codeship.com/projects/9fc5b750-6450-0138-6dfe-4608fa381da8/status?branch=master)](https://app.codeship.com/projects/393316)
+
